@@ -47,7 +47,7 @@ def main():
                         metavar='[No_of_MONTH]',
                         type=int,
                         default=3,
-                        help='[Optional] Show the number of top months. Default: 3'
+                        help='[Optional] Show the number of top months. Zero (0) means not categorization by month. Default: 3'
                        )
     parser.add_argument('-se', '--sort_element',
                         metavar='[ASC|DES]',
