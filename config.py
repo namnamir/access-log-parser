@@ -1,7 +1,7 @@
 config = {
     # define the number of lines from the file that should be parsed
     # possible options: any positive digit.
-    #                   minus numbers or 0 = all
+    #                   minus numbers = all, e.g. -1
     'lines_to_parse': 100,
     # list the elements should not be parsed and shown
     # list of all items:
@@ -26,7 +26,7 @@ config = {
     'resolve_ip': {
         # turn on or of suing API
         # possible choices: True, False
-        'status': True,
+        'status': False,
         # user __IP__ to determine where IP should be placed
         # it should be an API formats results in JSON
         'api': 'http://ip-api.com/json/__IP__',

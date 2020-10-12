@@ -38,7 +38,7 @@ def data_parser(args, max_line, exceptions):
         for line in file:
             # parse just number of lines mentioned by the user
             # if it is not mentioned, parse all lines
-            if (max_line == 0) or (i < max_line):
+            if (max_line == -1) or (i < max_line):
                 try:
                     # get the item based on the defined pattern
                     item = pattern.match(line).groupdict()

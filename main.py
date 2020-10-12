@@ -47,7 +47,7 @@ def main():
                         metavar='[No_of_MONTH]',
                         type=int,
                         default=3,
-                        help='[Optional] Show the number of top months. Zero (0) means not categorization by month. Default: 3'
+                        help='[Optional] Show the number of top months. Any minus number means not categorization by month. Default: 3'
                        )
     parser.add_argument('-se', '--sort_element',
                         metavar='[ASC|DES]',
@@ -73,8 +73,9 @@ def main():
         max_line = int(config['lines_to_parse'])
     else:
         # max_line = sum(1 for line in open(args.file))
-        max_line = 0
+        max_line = -1
 
+    print (max_line)
     # parse the log file
     log = data_parser(args, max_line, exception_list)
 
