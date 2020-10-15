@@ -55,7 +55,9 @@ def data_parser(args, max_line, exceptions):
                         
                     # parse requests and categorize them into different HTTP methods
                     r = item['request'].split(' ')
-                    item.pop('request')
+                    # regardless the type of the method, put it into the request
+                    item['request'] = r[1]
+                    # vary the different type of request
                     item['request_' + r[0]] = r[1]
 
                     # resolve host IPs to country, city, province, and ISP if it is requested
@@ -82,6 +84,7 @@ def data_parser(args, max_line, exceptions):
                     item['user_agent_browser'] = ua[2]
 
                     # add month to the item
+                    # it will save it in the format of 'yyyy mm' to make sort easier
                     item['time_custom'] = datetime.strptime(item['time'], '%d/%b/%Y:%H:%M:%S %z').strftime('%Y %m')
 
                     # add the assembled log (in a dictionary format) to an array

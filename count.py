@@ -1,3 +1,5 @@
+from config import config
+
 
 # counting calls
 class Count:
@@ -13,24 +15,24 @@ class Count:
         # iterate over log file
         for item in self.data:
             # iterate over each line of the log file formated in a dictionary
-            for k,v in item.items():
+            for key, value in item.items():
                 # skip the exempted keys
-                if k in self.exceptions:
+                if key in self.exceptions:
                     continue
 
                 # change the empty (NULL) items to 'none'
-                if not v:
-                    v = '_UNKNOWN_'
+                if not value:
+                    value = config['translation']['unknown']
                 
                 # add the key to the dictionary
-                if not k in output:
-                    output[k] = {}
+                if not key in output:
+                    output[key] = {}
 
                 # count others
-                if v in output[k]:
-                    output[k][v] += 1
+                if value in output[key]:
+                    output[key][value] += 1
                 else:
-                    output[k][v] = 1
+                    output[key][value] = 1
         return output
 
     # count total number of occurrences in each month
@@ -41,24 +43,35 @@ class Count:
         # iterate over log file
         for item in self.data:
             # iterate over each line of the log file formated in a dictionary
-            for k,v in item.items():
+            for key, value in item.items():
                 # skip the exempted keys
-                if (k in self.exceptions) or (k == 'time_custom'):
+                # 'time_custom' is related to months
+                if (key in self.exceptions) or (key == 'time_custom'):
                     continue
+
+                # change the empty (NULL) items to 'none'
+                if not value:
+                    value = config['translation']['unknown']
 
                 # add the time_custom name to the dictionary
                 if not item['time_custom'] in output:
                     output[item['time_custom']] = {}
 
                 # add the key to the dictionary
-                if not k in output[item['time_custom']]:
-                    output[item['time_custom']][k] = {}
+                if not key in output[item['time_custom']]:
+                    output[item['time_custom']][key] = {}
                 
                 # count others
-                if v in output[item['time_custom']][k]:
-                    output[item['time_custom']][k][v] += 1
+                if value in output[item['time_custom']][key]:
+                    output[item['time_custom']][key][value] += 1
                 else:
-                    output[item['time_custom']][k][v] = 1
+                    output[item['time_custom']][key][value] = 1
+        
+            # calculate total and unique number of visitors based on 'host_ip'
+            output[item['time_custom']]['visitor'] = {}
+            output[item['time_custom']]['visitor']['total'] = sum(output[item['time_custom']]['host_ip'].values())
+            output[item['time_custom']]['visitor']['unique'] = len(output[item['time_custom']]['host_ip'])
+        
         return output
     
     # sort dictionary ascendingly/descendingly
@@ -68,9 +81,9 @@ class Count:
 
         # sort data
         if sort_type.lower() in ['asc', 'ascending', 'ascendingly']:
-            data = {k: v for k, v in sorted(data.items(), key=lambda item: item[sort_value], reverse=False)}
+            data = {key: value for key, value in sorted(data.items(), key=lambda item: item[sort_value], reverse=False)}
         elif sort_type.lower() in ['des', 'descending', 'descendingly']:
-            data = {k: v for k, v in sorted(data.items(), key=lambda item: item[sort_value], reverse=True)}
+            data = {key: value for key, value in sorted(data.items(), key=lambda item: item[sort_value], reverse=True)}
 
         # return the requested number of sorted data, e.g. least 10, or top 10
         return dict(list(data.items())[:max_no_data])

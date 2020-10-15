@@ -68,6 +68,13 @@ This command will get all lines of the log file and show top 20 visitors' countr
 python main.py -f ./access.log -l 0 -nm 6 -e host_country -ne 20
 ```
 
+This command will draw the charts based on IP and request as well as the table of the unique and total monthly visitors
+```bash
+python main.py -f ./access.log -l -1 -nm 36 -e visitor,host_ip,request -ne 10 -c yes
+```
+![Output Example](img/output-01.png)
+![Output Example](img/output-02.png)
+
 # Rationale
 A line of `access.log` is look like the following.
 ``` Bash
@@ -89,9 +96,14 @@ Read more about it [here](https://httpd.apache.org/docs/current/mod/mod_log_conf
 
 # Change Log
 ## Version 1.0
-- The initial script is released on 11 Oct 2020.
+- The initial script is released on 14 Oct 2020.
 
 # To-Dos
+- [ ] Add menu to the script in order to make it faster and more functional.
 - [ ] Add more charts
 - [ ] Show the number of data
 - [ ] Show the last element of data
+- [ ] Export data in csv, excel, JSON, XML, etc.
+- [ ] Add elapsed time.
+- [ ] Handle errors:
+  - [ ] When the value of arguments are 0, e.g. -ne
